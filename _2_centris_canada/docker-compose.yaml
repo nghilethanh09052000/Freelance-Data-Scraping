@@ -1,0 +1,7 @@
+version: '3.10'
+
+services:
+  project-splash:
+    image: scrapinghub/splash
+    ports:
+      - "8050:8050"
