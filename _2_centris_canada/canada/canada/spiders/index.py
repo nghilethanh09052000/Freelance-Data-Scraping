@@ -77,16 +77,12 @@ class IndexSpider(scrapy.Spider):
         )
 
     def parse(self, response):
+
         resp_dict = json.loads(response.body)
         html = resp_dict.get('d').get('Result').get('html')
 
-        with open('index.html','w') as f:
-            f.write(html)
+      
         sel = Selector(text = html)
-
-
-        
-    
         listings = sel.xpath('//div[@class="property-thumbnail-item thumbnailItem col-12 col-sm-6 col-md-4 col-lg-3"]')
         for listing in listings:
             category = listing.xpath('.//div[@class="shell"]/a/div/div[4]/div/div/span/text()').get()
@@ -103,3 +99,16 @@ class IndexSpider(scrapy.Spider):
                 'Detail Url': detailUrl
             }
 
+        count = resp_dict.get('d').get('Result').get('count')
+        increment_number = resp_dict.get('d').get('Result').get('inscNumberPerPage')
+        if self.position['startPosition'] <= count:
+            self.position['startPosition'] += increment_number
+        yield scrapy.Request(
+            url = "https://www.centris.ca/Property/GetInscriptions",
+            method = "POST",
+            body = json.dumps(self.position),
+             headers = {
+                'Content-Type': 'application/json'
+            },
+            callback = self.parse
+        )
