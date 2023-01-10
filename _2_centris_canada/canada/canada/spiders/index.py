@@ -1,6 +1,8 @@
 import scrapy
 import json
 from scrapy.selector import Selector
+from scrapy_splash import SplashRequest
+from w3lib.http import basic_auth_header
 
 class IndexSpider(scrapy.Spider):
     name = 'index'
@@ -8,6 +10,21 @@ class IndexSpider(scrapy.Spider):
     position = {
         "startPosition": 0
     }
+
+    http_user = 'user'
+    http_pass = 'userpass'
+
+    lua_script = '''
+        function main(splash, args)
+            splash.images_enabled = false
+            splash.js_enabled = false
+            assert(splash:go(args.url))
+            assert(splash:wait(0.5))
+            return {
+                html = splash:html()
+            }
+        end
+    '''
     
     def start_requests(self):
         query = {
@@ -88,16 +105,24 @@ class IndexSpider(scrapy.Spider):
             category = listing.xpath('.//div[@class="shell"]/a/div/div[4]/div/div/span/text()').get()
             price = listing.xpath('.//div[@class="shell"]/a/div/div[2]/span[1]/text()').get()
             imageUrl = listing.xpath('.//div[@class="shell"]/div/a/img/@src').get()
-            address = f'''{listing.xpath('normalize-space(.//div[@class="shell"]/a/div/div[3]/span[1]/div/text())').get()} - {listing.xpath('.//div[@class="shell"]/a/div/div[3]/span[2]/div[1]/text()').get()} - {listing.xpath('.//div[@class="shell"]/a/div/div[3]/span[2]/div[2]/text()').get()}'''
-            detailUrl = listing.xpath('.//div[@class="shell"]/div/a/@href').get()
+            detailUrl = f'''https://www.centris.ca{listing.xpath('.//div[@class="shell"]/div/a/@href').get()}'''
     
-            yield {
-                'Category': category,
-                'Price': price,
-                'ImageUrl': imageUrl,
-                'Address': address,
-                'Detail Url': detailUrl
-            }
+          
+            yield SplashRequest(
+                url = detailUrl,
+                endpoint='execute',
+                callback=self.parse_summary,
+                args={
+                    'lua_source':self.lua_script
+                },
+                splash_headers={'Authorization':basic_auth_header('user','userpass')},
+                meta= {
+                    'Category': category,
+                    'Price': price,
+                    'ImageUrl': imageUrl,
+                    'Detail Url': detailUrl
+                }
+            )
 
         count = resp_dict.get('d').get('Result').get('count')
         increment_number = resp_dict.get('d').get('Result').get('inscNumberPerPage')
@@ -112,3 +137,22 @@ class IndexSpider(scrapy.Spider):
             },
             callback = self.parse
         )
+
+    def parse_summary(self, response):
+        category = response.request.meta['Category']
+        price = response.request.meta['Price']
+        imageUrl = response.request.meta['ImageUrl']
+        detailUrl = response.request.meta['Detail Url']
+
+        address = response.xpath('//div[@class="row property-tagline"]/div/div/div/h2/text()').get()
+        description = response.xpath('normalize-space(//div[@itemprop="description"]/text())').get()
+        
+        yield {
+            'Category': category,
+            'Price': price,
+            'ImageUrl': imageUrl,
+            'Address': address,
+            'Description': description,
+            'Detail Url': detailUrl
+        }
+
