@@ -31,7 +31,7 @@ class IndexSpider(scrapy.Spider):
 
             loader = ItemLoader(item=ZillowItem())
             loader.add_value('id', house.get('id'))
-            loader.add_value('image_urls', house.get('imgSrc'))
+            loader.add_value('imgSrc', house.get('imgSrc'))
             loader.add_value('detailUrl', house.get('detailUrl'))
             loader.add_value('statusType', house.get('statusType'))
             loader.add_value('statusText', house.get('statusText'))
@@ -47,13 +47,13 @@ class IndexSpider(scrapy.Spider):
             yield loader.load_item()
 
         total_pages = json_resp.get('cat1').get('searchList').get('totalPages')
-        # if current_page <= total_pages:
-        #     current_page += 1
-        #     yield scrapy.Request(
-        #         url = parse_new_url(URL, current_page),
-        #         callback = self.parse,
-        #         cookies = cookie_parser(),
-        #         meta = {
-        #             'currentPage': current_page
-        #         }
-        #     )
+        if current_page <= total_pages:
+            current_page += 1
+            yield scrapy.Request(
+                url = parse_new_url(URL, current_page),
+                callback = self.parse,
+                cookies = cookie_parser(),
+                meta = {
+                    'currentPage': current_page
+                }
+            )

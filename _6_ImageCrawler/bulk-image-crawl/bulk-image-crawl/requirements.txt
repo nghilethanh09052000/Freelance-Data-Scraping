@@ -1,0 +1,8 @@
+scrapy
+scrapy-splash
+Pillow
+pymongo
+cookiecutter
+selenium
+scrapy-selenium
+scrapy_cloudflare_middleware

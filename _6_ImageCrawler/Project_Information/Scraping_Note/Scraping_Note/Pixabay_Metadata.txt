@@ -1,0 +1,71 @@
+Example Pixabay: https://pixabay.com/photos/mountains-alps-meadow-736886/
+
+{
+   "image":"pixabay_736886_909086",
+   "source":"www.pixabay.com",
+   "page":"https://pixabay.com/photos/mountains-alps-meadow-736886/",
+   "exif":{
+      "make":"Canon",
+      "model":"EOS 500d",
+      "lens":"",  
+      "shutterspeed":"1/50s",
+      "fstop":"f/8.0",
+      "iso":"100",
+      "focallength":"28mm"
+   },
+   "stat":{
+      "views":760725,
+      "likes":1730,
+      "comments":352,
+      "downloads":518854
+   },
+   "tags":[
+      "mountains",
+      "alps",
+      "meadow",
+      "purple flowers",
+      "snow mountains",
+      "alpines",
+      "peak",
+      "summit",
+      "mountain landscape",
+      "landscape",
+      "fields",
+      "nature"
+   ],
+   "license":"CC0",
+   "uploaded":"2015-04-24",
+   "owner":"Bessi",
+   "title":"mountains-alps-meadow",
+   "gps":{
+      "latitude":0,
+      "longitude":0
+   },
+   "size":[
+      {
+         "width":150,
+         "height":97,
+         "url":"https://cdn.pixabay.com/photo/2015/04/23/22/01/mountains-736886_150.jpg"
+      },
+      {
+         "width":640,
+         "height":417,
+         "url":"https://pixabay.com/get/g2d103d8348fc1db4beb57959c9adff1cf190caaddd0b8d8245d4e7485a1d76a3d88ed15b8a68789d7e2577d94ef74042_640.jpg"
+      },
+      {
+         "width":1920,
+         "height":1252,
+         "url":"https://pixabay.com/get/gf8e49261c6421d5421e37ff6e31a3495765edd1eba07353628b1e432efaa8931aa79dd8ebe802becf568154ced6035a8bfb46d6d8bf66d936cea70f302676681_1280.jpg"
+      }
+   ],
+   "root_class":"landscape",
+   "sub_class":[
+      "landscape",
+      "mountain",
+      "nature"
+   ],
+   "raiting":null,
+   "crawl_id":1,
+   "crawl_note":"Some text note will be here",
+   "crawl_count":1
+}

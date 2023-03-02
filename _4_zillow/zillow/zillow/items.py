@@ -11,12 +11,12 @@ class ZillowItem(scrapy.Item):
     id = scrapy.Field(
         output_processor = TakeFirst()
     )
-    
-    # imgSrc = scrapy.Field(
-    #     output_processor = TakeFirst()
-    # )
-    image_urls = scrapy.Field()
-    images = scrapy.Field()
+
+    imgSrc = scrapy.Field(
+        output_processor = TakeFirst()
+    )
+    # image_urls = scrapy.Field()
+    # images = scrapy.Field()
 
     detailUrl = scrapy.Field(
         output_processor = TakeFirst()

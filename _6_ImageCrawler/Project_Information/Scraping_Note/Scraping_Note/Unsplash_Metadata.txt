@@ -1,0 +1,3 @@
+Example Unsplash: https://unsplash.com/data
+
+For Unsplash no need to crawl any images as Unsplash already released a Dataset (Lite) which has 25K images. We only need to download the images from their provided UIRL an update the Mongo as per our structure (same as Flickr/Pexel/Pixabay)

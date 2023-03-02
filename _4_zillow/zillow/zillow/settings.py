@@ -62,10 +62,10 @@ DOWNLOAD_DELAY = 10
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   'zillow.pipelines.ZillowPipeline': 1,
-}
-IMAGES_STORE = '.'
+# ITEM_PIPELINES = {
+#    'zillow.pipelines.ZillowPipeline': 1,
+# }
+# IMAGES_STORE = '.'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

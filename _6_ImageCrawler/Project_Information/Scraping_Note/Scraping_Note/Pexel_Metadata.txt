@@ -1,0 +1,60 @@
+Example Pexels: https://www.pexels.com/photo/landscape-photography-of-mountains-covered-in-snow-691668/
+
+{
+   "image":"pexels_691668_121938",
+   "source":"www.pexels.com",
+   "page":"https://www.pexels.com/photo/landscape-photography-of-mountains-covered-in-snow-691668/",
+   "exif":{
+      "make":"Canon",
+      "model":"EOS 70D",
+      "lens":"",
+      "shutterspeed":"1/640s",
+      "fstop":"f/8.0",
+      "iso":"160",
+      "focallength":"48.0mm"
+   },
+   "stat":{
+      "downloads":650000,
+      "views":77700000,
+      "likes":441000,
+      "comments":null
+   },
+   "tags":[
+      
+   ],
+   "license":"CC0",
+   "uploaded":"2017-11-17",
+   "owner":"eberhard grossgasteiger",
+   "title":"Landscape Photography of Mountains Covered in Snow",
+   "gps":{
+      "latitude":0,
+      "longitude":0
+   },
+   "size":[
+      {
+         "width":5472,
+         "height":3648,
+         "url":"https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg"
+      },
+      {
+         "width":null,
+         "height":null,
+         "url":"Other available URL"
+      },
+      {
+         "width":null,
+         "height":null,
+         "url":"Other available URL"
+      }
+   ],
+   "root_class":"landscape",
+   "sub_class":[
+      "landscape",
+      "mountain",
+      "nature"
+   ],
+   "raiting":null,
+   "crawl_id":1,
+   "crawl_note":"Some text note will be here",
+   "crawl_count":1
+}

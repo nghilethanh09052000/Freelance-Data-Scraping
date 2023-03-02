@@ -1,0 +1,149 @@
+Example Flickr: https://www.flickr.com/photos/128878149@N07/51604355570
+
+{
+   "image":"flickr_51604355570_128878149@N07",							# Custom name: Flickr then PhotoID and UserID
+   "source":"www.flickr.com",											# Image source
+   "page":"https://www.flickr.com/photos/128878149@N07/51604355570",	# Image page
+   "exif":{																# Exif data
+      "make":"Sony",	
+      "model":"ILCE-7RM4",	
+      "lens":"24-70mm F2.8 DG DN | Art 019",
+      "shutterspeed":"1/100s",	
+      "fstop":"f/9.0",	
+      "iso":"100",	
+      "focallength":"32.8mm"	
+   },
+   "stat":{																# Image statistic
+      "views":11,
+      "likes":3,
+      "comments":0,
+      "downloads":null
+   },
+   "tags":[																# Image tags
+      "Canossa",
+      "Europe",
+      "Italy",
+      "ReggioEmilia",
+      "SanPolodEnza",
+      "agriculture",
+      "calanques",
+      "castle",
+      "country",
+      "exterior",
+      "field",
+      "green",
+      "hill",
+      "landscape",
+      "mountain",
+      "nature",
+      "outdoor",
+      "photography",
+      "plant",
+      "rural",
+      "scenic",
+      "spring",
+      "springtime",
+      "sunny"
+   ],
+   "license":"Reserved",                        						# Image license
+   "uploaded":"2021-10-18",                     						# Image upload time
+   "owner":"Claudio Colombo",                   						# Image owner name
+   "title":"Rural landscape near ...",          						# Image title
+   "gps":{ 																# Image Geo-tag                         
+      "latitude":0,	                
+      "longitude":0 
+   },
+   "size":[																# Image size
+      {
+         "width":75,
+         "height":75,
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_s.jpg"
+      },
+      {
+         "width":"150",
+         "height":"150",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_q.jpg"
+      },
+      {
+         "width":100,
+         "height":67,
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_t.jpg"
+      },
+      {
+         "label":"Small",
+         "width":"240",
+         "height":"160",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_m.jpg"
+      },
+      {
+         "width":"320",
+         "height":"213",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_n.jpg"
+      },
+      {
+         "width":"400",
+         "height":"267",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_w.jpg"
+      },
+      {
+         "width":"500",
+         "height":"333",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec.jpg"
+      },
+      {
+         "width":"640",
+         "height":"427",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_z.jpg"
+      },
+      {
+         "width":"800",
+         "height":"533",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_c.jpg"
+      },
+      {
+         "width":"1024",
+         "height":"683",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_78f83e3dec_b.jpg"
+      },
+      {
+         "width":"1600",
+         "height":"1067",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_d25cefb2a2_h.jpg"
+      },
+      {
+         "width":"2048",
+         "height":"1365",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_b1f71621f1_k.jpg"
+      },
+      {
+         "width":"3072",
+         "height":"2048",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_2fcb67dc4d_3k.jpg"
+      },
+      {
+         "width":"4096",
+         "height":"2731",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_acd8dfdd57_4k.jpg"
+      },
+      {
+         "width":"5120",
+         "height":"3413",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_071628380c_5k.jpg"
+      },
+      {
+         "width":"6144",
+         "height":"4096",
+         "url":"https:\/\/live.staticflickr.com\/65535\/51604355570_673aeefd59_6k.jpg"
+      }
+   ],
+   "root_class":"landscape",											# Populated from config file
+   "sub_class":[														# Populated from config file
+      "landscape",
+      "mountain",
+      "nature"
+   ],
+   "raiting":null,														# Default null and later populated from Web-UI
+   "crawl_id":1,														# Populated from config file
+   "crawl_note":"Some text note will be here",							# Populated from config file
+   "crawl_count":1														# Will increase by 1 after each image crawlled
+}
