@@ -5,7 +5,7 @@ from scrapy_splash import SplashRequest
 from w3lib.http import basic_auth_header
 import scrapy
 import re
-
+from ..urls import urls
 
 class IndexSpider(scrapy.Spider):
     http_user = 'user'
@@ -16,61 +16,76 @@ class IndexSpider(scrapy.Spider):
     recipe_route = 'rezeptkategorien'
     all_recipe_route = 'alle-rezepte'
 
+    lua_script = '''
+        function main(splash, args)
+            assert(splash:go(args.url))
+            assert(splash:wait(0.5))
+            return {
+                html = splash:html(),
+                png = splash:png(),
+                har = splash:har(),
+            }
+        end
+    '''
+
 
     def start_requests(self):
-        yield SplashRequest(
-            url = f"{self.init_url}/{self.recipe_route}",
-            callback = self.find_category,
-            splash_headers={'Authorization':basic_auth_header('user','userpass')},
-        )
-    
-    def find_category(self, response):
-        sections = response.xpath('//main/section[2]/section')
-        for section in sections:
-            topic = section.xpath('./h2/text()').get()
-            recipe_list = section.xpath('./div[@class="quicklinks-grid quicklinks"]/ul/li/a/@href')
-            for recipe in recipe_list:
-
-                # init_url = https://www.gutekueche.at
-                # recipe.get() = /antipasti-rezepte
-                # all_recipe_route = alle-rezepte
-
-                recipe_url = f'{self.init_url}{recipe.get().split("-")[0]}-{self.all_recipe_route}'
-
-                yield SplashRequest(
-                    url = recipe_url,
-                    callback = self.list_recipe,
-                    splash_headers={'Authorization':basic_auth_header('user','userpass')},
-                    meta =  {
-                        'url': recipe_url,
-                        'topic': topic
-                    }
-                )
-
-    def list_recipe(self, response):
-        list_recipe = response.xpath('//div[@class="col "]')
-        for recipe in list_recipe:
-            url = recipe.xpath('.//div/div/div[2]/h3/a/@href').get()
+        for url in urls:
             yield SplashRequest(
-                url = f"{self.init_url}{url}",
+                url = url,
                 callback = self.init_recipe,
+                #callback = self.find_category,
                 splash_headers={'Authorization':basic_auth_header('user','userpass')},
-                meta = {
-                    'topic': response.meta['topic']
-                } 
+                #endpoint ='execute',
+                #args={'lua_source': self.lua_script}
             )
+    
+    # def find_category(self, response):
+    #     sections = response.xpath('//main/section[2]/section')
+    #     for section in sections:
+    #         topic = section.xpath('./h2/text()').get()
+    #         recipe_list = section.xpath('./div[@class="quicklinks-grid quicklinks"]/ul/li/a/@href')
+    #         for recipe in recipe_list:
 
-        next_page = response.xpath("//li[contains(@class,'arrow')][last()]/a/@href").get()
-        if next_page:
-            recipe_url = f"{self.init_url}{next_page}"
-            yield SplashRequest(
-                    url = recipe_url,
-                    callback = self.list_recipe,
-                    splash_headers={'Authorization':basic_auth_header('user','userpass')},
-                    meta =  {
-                        'topic': response.meta['topic']
-                    } 
-                )
+    #             # init_url = https://www.gutekueche.at
+    #             # recipe.get() = /antipasti-rezepte
+    #             # all_recipe_route = alle-rezepte
+
+    #             recipe_url = f'{self.init_url}{recipe.get().split("-")[0]}-{self.all_recipe_route}'
+
+    #             yield SplashRequest(
+    #                 url = recipe_url,
+    #                 callback = self.list_recipe,
+    #                 meta =  {
+    #                     'url': recipe_url,
+    #                     'topic': topic
+    #                 }
+    #             )
+
+    # def list_recipe(self, response):
+    #     list_recipe = response.xpath('//div[@class="col "]')
+    #     for recipe in list_recipe:
+    #         url = recipe.xpath('.//div/div/div[2]/h3/a/@href').get()
+    #         yield SplashRequest(
+    #             url = f"{self.init_url}{url}",
+    #             callback = self.init_recipe,
+    #             splash_headers={'Authorization':basic_auth_header('user','userpass')},
+    #             meta = {
+    #                 'topic': response.meta['topic']
+    #             } 
+    #         )
+
+    #     next_page = response.xpath("//li[contains(@class,'arrow')][last()]/a/@href").get()
+    #     if next_page:
+    #         recipe_url = f"{self.init_url}{next_page}"
+    #         yield SplashRequest(
+    #                 url = recipe_url,
+    #                 callback = self.list_recipe,
+    #                 splash_headers={'Authorization':basic_auth_header('user','userpass')},
+    #                 meta =  {
+    #                     'topic': response.meta['topic']
+    #                 } 
+    #             )
     
     def init_recipe(self, response):
         image_url = self.process_image( response.xpath('//main[@id="main"]/article/header')) 
@@ -83,14 +98,14 @@ class IndexSpider(scrapy.Spider):
         equipment = self.process_equipments( response.xpath('//div[@class="recipe-categories"]/span[contains(@class,"btn")]/text()')  )
         ingredients_flat = self.process_ingredients( response.xpath('//div[@class="ingredients-table"]/table') )
         instructions_flat = self.process_instructions( response.xpath('//section[@class="sec rezept-preperation"]/ol/li/text()') )
-        video_embed = self.process_video_embed( response.xpath('//div[@type="video/mp4"]/video/@src') )
+        video_embed = self.process_video_embed( response.xpath('//video/source[1]/@src') )
         notes = self.process_notes( response.xpath('//section[@class="sec"]/p/text()') )
         nutrition = self.process_nutrition( response.xpath('//div[@class="text-center"]/div[@class="nutri-block"]') )
         categories = self.process_categories( response.xpath('//div[@class="recipe-categories"]/a/text()') )
 
         yield {
             'url': response.url,
-            'topic': response.meta['topic'],
+            #'topic': response.meta['topic'],
             'categories': categories,   
 
             'type': 'food',
@@ -140,7 +155,7 @@ class IndexSpider(scrapy.Spider):
         return f'<p>{summary}</p>' # string
     
     def process_servings(self, servings):
-        return servings.get() #Number
+        return servings.get() # Number
     
     def process_prep_time(self, prep_time):
         for row in prep_time:
@@ -165,39 +180,25 @@ class IndexSpider(scrapy.Spider):
         return ''
     
     def process_equipments(self, equipments):
-        data = []
-        for equipment in equipments.getall():
-            data.append({'name':equipment})
-        return data
+        return "--".join(equipments.getall())
    
     def process_ingredients(self, ingredients):
         ingredients_list = []
         for ingredient in ingredients.xpath('.//tr'):       
+
             amount = ingredient.xpath('normalize-space(.//td/text())').get()
             unit = ingredient.xpath('normalize-space(.//th[1]/text())').get()
             name = ingredient.xpath('normalize-space(.//th[2]/a/text())').get() if ingredient.xpath('normalize-space(.//th[2]/a/text())').get() else ingredient.xpath('normalize-space(.//th[2]/text())').get()
-            ingredients_list.append({
-                'amount': amount,
-                'unit': unit,
-                'name': name,
-                'notes': '',
-                "converted": {},
-                'type': 'ingredient'
-            })
-        return ingredients_list # Array Object
+
+            data = f'{amount}-{unit}-{name}'
+            ingredients_list.append(data)
+        return ingredients_list # Array
     
     def process_instructions(self, instructions):
-        steps = []
-        for index, instruction in enumerate(instructions.getall()):
-            steps.append({
-                'text': f'<p>{instruction}</p>',
-                'type': 'instruction',
-                'image_url': ""
-            })
-        return steps # Array Object
+        return "--".join(instructions.getall()) 
     
     def process_video_embed(self, video_embed):
-        return video_embed.get() if video_embed.get() else ''
+        return video_embed.get()
     
     def process_notes(self, notes):
         return f'<p>{notes.get()}</p>' if notes.get() else ''
